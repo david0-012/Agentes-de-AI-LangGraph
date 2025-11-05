@@ -1,20 +1,26 @@
 from langgraph.graph import MessagesState
 from langchain_core.messages import AIMessage
+from langchain.chat_models import init_chat_model
+import random
+
+llm =init_chat_model("google_genai:gemini-2.5-flash-lite", temperature=1)
 
 class State(MessagesState): # 
     customer_name: str
     my_age: int
 
 def node_1(state: State):
+    new_state : State = {}
     if state.get("customer_name") is None:
-        return{
-            "customer_name" : "John Doe"
-        }
-    else: 
-        ai_msg = AIMessage(content="Hello, how can i help you?")
-        return {
-            "messages":[ai_msg]
-        }
+        new_state ["customer_name"] = "John Doe"
+    else:
+        new_state["my_age"] = random.randint(18,65)
+        
+    history = state["messages"] # Obtengo el historial de mensajes
+    ai_message = llm.invoke(history) # Llama al modelo con el historial
+    new_state["messages"] = [ai_message] # Actualiza el estado con la respuesta del modelo
+    print (new_state)
+    return new_state
 
 from langgraph.graph import StateGraph, START, END
 
