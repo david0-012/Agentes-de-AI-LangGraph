@@ -12,4 +12,3 @@ booking_node = create_agent(
     tools=tools,
     system_prompt=prompt_template.format(),
 )
-|
