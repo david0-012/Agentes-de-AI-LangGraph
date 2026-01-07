@@ -13,7 +13,11 @@ class ContactInfo(BaseModel):
     age : str = Field(description="The age of the person")
 
 # Inicializa modelo de lenguaje Google Gemini-2.5 Flash Lite
-llm = init_chat_model("google_genai:gemini-2.5-flash-lite", temperature=0)   
+# llm = init_chat_model("google_genai:gemini-2.5-flash-lite", temperature=0)
+
+# Inicializa modelo de lenguaje OpenAI GPT-4o Mini
+llm = init_chat_model("openai:gpt-4o-mini", temperature=0)
+   
 # Configura la salida estructurada del modelo con el esquema definido
 llm = llm.with_structured_output(schema=ContactInfo)
 
